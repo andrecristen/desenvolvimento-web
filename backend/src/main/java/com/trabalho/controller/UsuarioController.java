@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class UsuarioController {
 
     @Autowired
