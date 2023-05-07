@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, String> {
 
-    @Query("SELECT usuario.token FROM Usuario usuario WHERE usuario.email = :email AND usuario.senha = :senha")
-    String getToken(@Param("email") String email, @Param("senha") String senha);
+    @Query("SELECT usuario FROM Usuario usuario WHERE usuario.email = :email AND usuario.senha = :senha")
+    Usuario getToken(@Param("email") String email, @Param("senha") String senha);
 
 }

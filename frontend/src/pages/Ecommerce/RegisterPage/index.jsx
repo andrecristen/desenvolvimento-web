@@ -3,16 +3,18 @@ import "./styles.css"
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
-import { useNavigate } from "react-router-dom";
 import User from "../../../models/User";
 import { toast } from 'react-toastify';
-import { PublicContext } from "../../../contexts/public";
 import Menu from "../../../components/Ecommerce/Menu";
+import { EcommerceContext } from "../../../contexts/ecommerce";
 
 
 
 const RegisterPage = function () {
 
+    const { registerCliente } = useContext(EcommerceContext);
+
+    const [validatingRegister, setValidatingRegister] = useState(false);
     const [name, setName] = useState('');
     const [cpf, setCpf] = useState('');
     const [email, setEmail] = useState('');
@@ -39,13 +41,30 @@ const RegisterPage = function () {
         setConfirmPassword(event.target.value);
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log('Name: ', name);
-        console.log('CPF: ', cpf);
-        console.log('Email: ', email);
-        console.log('Password: ', password);
-        console.log('Confirm Password: ', confirmPassword);
+        if (!validatingRegister) {
+            if (confirmPassword == password) {
+                const user = new User();
+                user.nome = name;
+                user.cpf = cpf;
+                user.email = email;
+                user.senha = password;
+                setValidatingRegister(true);
+                await registerCliente(user);
+                setValidatingRegister(false);
+            } else {
+                setValidatingRegister(false);
+                toast.error('Os campos Senha e Confirme sua Senha devem ser iguais.', {
+                    position: toast.POSITION.TOP_CENTER
+                });
+            }
+        } else {
+            toast.error('Registro em processamento, aguarde finalização.', {
+                position: toast.POSITION.TOP_CENTER
+            });
+        }
+        
     }
 
     return (
@@ -55,28 +74,28 @@ const RegisterPage = function () {
                 <div class="row justify-content-center">
                     <div class="col-md-6">
                         <h2>Cadastrar-se</h2>
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <div class="form-group">
                                 <label for="name">Nome:</label>
-                                <input type="text" class="form-control" id="name" />
+                                <input type="text" class="form-control" id="name" value={name} onChange={handleNameChange} />
                             </div>
                             <div class="form-group">
                                 <label for="cpf">CPF:</label>
-                                <input type="text" class="form-control" id="cpf" />
+                                <input type="text" class="form-control" id="cpf" value={cpf} onChange={handleCpfChange} />
                             </div>
                             <div class="form-group">
                                 <label for="email">E-mail:</label>
-                                <input type="email" class="form-control" id="email" />
+                                <input type="email" class="form-control" id="email" value={email} onChange={handleEmailChange} />
                             </div>
                             <div class="form-group">
                                 <label for="password">Senha:</label>
-                                <input type="password" class="form-control" id="password" />
+                                <input type="password" class="form-control" id="password" value={password} onChange={handlePasswordChange} />
                             </div>
                             <div class="form-group">
                                 <label for="confirmPassword">Confirme sua Senha:</label>
-                                <input type="password" class="form-control" id="confirmPassword" />
+                                <input type="password" class="form-control" id="confirmPassword" value={confirmPassword} onChange={handleConfirmPasswordChange} />
                             </div>
-                            <button type="submit" class="btn btn-primary">Cadastrar</button>
+                            <button type="submit" class="btn btn-primary">Cadastrar {validatingRegister ? <FontAwesomeIcon icon={faSpinner} spin /> : ''}</button>
                         </form>
                     </div>
                 </div>

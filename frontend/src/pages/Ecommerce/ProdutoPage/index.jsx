@@ -3,11 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Menu from "../../../components/Ecommerce/Menu";
-import { PublicContext } from "../../../contexts/public";
+import { EcommerceContext } from "../../../contexts/ecommerce";
 
 const ProdutoPage = function () {
 
-    const { getProdutoDerivacoes } = useContext(PublicContext);
+    const { getProdutoDerivacoes } = useContext(EcommerceContext);
     let { id } = useParams();
 
     const [derivacaoSelecionada, setDerivacaoSelecionada] = useState(0);

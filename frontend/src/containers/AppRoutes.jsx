@@ -3,7 +3,7 @@ import {
     Route,
     Routes
 } from "react-router-dom";
-import { AuthProvider } from "../contexts/auth"
+import { EcommerceProvider } from "../contexts/ecommerce"
 
 import PrivateContainer from "../components/UI/PrivateContainer";
 import { PublicProvider } from "../contexts/public";
@@ -12,6 +12,8 @@ import HomePage from "../pages/Ecommerce/HomePage";
 import LoginPage from "../pages/Ecommerce/LoginPage";
 import RegisterPage from "../pages/Ecommerce/RegisterPage";
 import ProdutoPage from "../pages/Ecommerce/ProdutoPage";
+import ProfilePage from "../pages/Ecommerce/ProfilePage";
+import { AdminProvider } from "../contexts/admin";
 
 const AppRoutes = () => {
 
@@ -19,17 +21,23 @@ const AppRoutes = () => {
         <Router>
             <PublicProvider>
                 <Routes>
-                    <Route exact path="/" element={<HomePage />}></Route>
-                    <Route exact path="/produto/:id" element={<ProdutoPage />}></Route>
-                    <Route exact path="/login" element={<LoginPage />}></Route>
-                    <Route exact path="/register" element={<RegisterPage />}></Route>
+                    
                 </Routes>
+                <EcommerceProvider>
+                    <Routes>
+                        <Route exact path="/" element={<HomePage />}></Route>
+                        <Route exact path="/register" element={<RegisterPage />}></Route>
+                        <Route exact path="/login" element={<LoginPage />}></Route>
+                        <Route exact path="/produto/:id" element={<ProdutoPage />}></Route>
+                        <Route exact path="/profile" element={<PrivateContainer><ProfilePage /></PrivateContainer>}></Route>
+                    </Routes>
+                </EcommerceProvider>
+                <AdminProvider>
+                    <Routes>
+                        <Route exact path="/my-profile" element={<PrivateContainer><ProfilePage /></PrivateContainer>}></Route>
+                    </Routes>
+                </AdminProvider>
             </PublicProvider>
-            <AuthProvider>
-                <Routes>
-                    {/* <Route exact path="/profile" element={<PrivateContainer><ProfilePage /></PrivateContainer>}></Route> */}
-                </Routes>
-            </AuthProvider>
         </Router>
     );
 }

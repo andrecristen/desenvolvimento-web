@@ -1,12 +1,18 @@
 export default class User {
 
-    first_name;
-    last_name;
-    username;
+    get TIPO_CLIENTE() {
+        return 1;
+    }
+
+    get TIPO_ADMINISTRADOR() {
+        return 2;
+    }
+
+    nome;
+    cpf;
     email;
-    password;
-    birth_date;
-    date_joined;
+    email;
+    senha;
 
     constructor() {
 

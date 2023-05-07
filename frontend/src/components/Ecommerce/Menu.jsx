@@ -1,13 +1,18 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { PublicContext } from "../../contexts/public";
 
 const Menu = (props) => {
 
-    const { logout } = useContext(PublicContext);
+    const { logout, authenticated } = useContext(PublicContext);
 
     const onClickLogout = () => {
         logout();
     }
+
+    useEffect(() => {
+
+    }, [authenticated]);
+
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -17,12 +22,19 @@ const Menu = (props) => {
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav ml-auto">
-                    <li className="nav-item">
-                        <a className="nav-link" href="/profile">Minha conta</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="/login">Login</a>
-                    </li>
+                    {!authenticated ?
+                        <li className="nav-item">
+                            <a className="nav-link" href="/login">Login</a>
+                        </li> : null}
+                    {authenticated ?
+                        <li className="nav-item">
+                            <a className="nav-link" href="/profile">Minha conta</a>
+                        </li> : null}
+                    {authenticated ?
+                        <li className="nav-item">
+                            <a className="nav-link" href="" onClick={onClickLogout}>Logout</a>
+                        </li> : null}
+
                 </ul>
             </div>
         </nav>

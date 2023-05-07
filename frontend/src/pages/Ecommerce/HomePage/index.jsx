@@ -1,12 +1,12 @@
 import 'react-toastify/dist/ReactToastify.css';
 import Menu from "../../../components/Ecommerce/Menu";
 import Produto from "../../../components/Ecommerce/Produto";
-import { PublicContext } from "../../../contexts/public";
 import { useContext, useEffect, useState } from "react";
+import { EcommerceContext } from '../../../contexts/ecommerce';
 
 const HomePage = function () {
 
-    const { getProdutos } = useContext(PublicContext);
+    const { getProdutos } = useContext(EcommerceContext);
     const [produtos, setProdutos] = useState([]);
 
     useEffect(() => {

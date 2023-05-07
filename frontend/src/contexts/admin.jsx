@@ -5,17 +5,17 @@ import { toast } from 'react-toastify';
 
 import { auth } from "../services/api"
 
-export const AuthContext = createContext();
+export const AdminContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-
+export const AdminProvider = ({ children }) => {
 
     return (
-        <AuthContext.Provider
+        <AdminContext.Provider
             value={{
                 auth
             }}>
             {children}
-        </AuthContext.Provider>
+        </AdminContext.Provider>
     );
+    
 }

@@ -64,12 +64,14 @@ public class UsuarioController {
     @PostMapping("/usuario/auth")
     public MessageResponse auth(@RequestBody AuthRequest authRequest) {
         try {
-            String token = usuarioRepository.getToken(authRequest.getEmail(), HashController.encode(authRequest.getSenha()));
-            if (token == null) {
+            Usuario usuario = usuarioRepository.getToken(authRequest.getEmail(), HashController.encode(authRequest.getSenha()));
+            if (usuario == null) {
                 throw new Exception("Não localizado usuário para as credenciais informadas.");
             }
             ArrayList<ParamResponse> params = new ArrayList<>();
-            params.add(new ParamResponse("token", token));
+            params.add(new ParamResponse("tipo", usuario.getTipo()));
+            params.add(new ParamResponse("nome", usuario.getNome()));
+            params.add(new ParamResponse("token", usuario.getToken()));
             return new MessageResponse(true, "Usuário logado com sucesso", params);
         } catch (Exception exception) {
             return new MessageResponse(false, exception.getMessage());
