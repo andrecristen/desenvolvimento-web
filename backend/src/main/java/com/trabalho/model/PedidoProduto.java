@@ -10,4 +10,10 @@ public class PedidoProduto {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @ManyToOne(fetch=FetchType.LAZY)
+    private Pedido pedido;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    private ProdutoDerivacao produtoDerivacao;
+
 }

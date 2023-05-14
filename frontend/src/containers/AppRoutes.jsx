@@ -14,6 +14,8 @@ import RegisterPage from "../pages/Ecommerce/RegisterPage";
 import ProdutoPage from "../pages/Ecommerce/ProdutoPage";
 import ProfilePage from "../pages/Ecommerce/ProfilePage";
 import { AdminProvider } from "../contexts/admin";
+import CarrinhoPage from "../pages/Ecommerce/CarrinhoPage";
+import FinalizarPedidoPage from "../pages/Ecommerce/FinalizarPedidopage";
 
 const AppRoutes = () => {
 
@@ -29,6 +31,8 @@ const AppRoutes = () => {
                         <Route exact path="/register" element={<RegisterPage />}></Route>
                         <Route exact path="/login" element={<LoginPage />}></Route>
                         <Route exact path="/produto/:id" element={<ProdutoPage />}></Route>
+                        <Route exact path="/cart" element={<CarrinhoPage />}></Route>
+                        <Route exact path="/finalizar-pedido" element={<PrivateContainer><FinalizarPedidoPage /></PrivateContainer>}></Route>
                         <Route exact path="/profile" element={<PrivateContainer><ProfilePage /></PrivateContainer>}></Route>
                     </Routes>
                 </EcommerceProvider>

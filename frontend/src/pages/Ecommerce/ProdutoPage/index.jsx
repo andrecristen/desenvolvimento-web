@@ -4,10 +4,13 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Menu from "../../../components/Ecommerce/Menu";
 import { EcommerceContext } from "../../../contexts/ecommerce";
+import { PublicContext } from "../../../contexts/public";
+import { toast } from "react-toastify";
 
 const ProdutoPage = function () {
 
     const { getProdutoDerivacoes } = useContext(EcommerceContext);
+    const { addItemOnCart } = useContext(PublicContext);
     let { id } = useParams();
 
     const [derivacaoSelecionada, setDerivacaoSelecionada] = useState(0);
@@ -22,6 +25,16 @@ const ProdutoPage = function () {
             return produto.produtosDerivacoes[derivacaoSelecionada];
         }
         return null;
+    }
+
+    const addDerivacaoSelecionadaOnCart = () => {
+        if (getDerivacaoSelecionada()) {
+            addItemOnCart(getDerivacaoSelecionada())
+        } else {
+            toast.error('Selecione um tamanho para adicionar ao carrinho.', {
+                position: toast.POSITION.TOP_CENTER
+            });
+        }
     }
 
     useEffect(() => {
@@ -58,7 +71,9 @@ const ProdutoPage = function () {
                         </select>
                         <h4>Preço: R$ {getDerivacaoSelecionada() ? getDerivacaoSelecionada().preco : "Selecione um tamanho"}</h4>
                         <h4>Estoque: {getDerivacaoSelecionada() ? getDerivacaoSelecionada().estoque : "Sem estoque"}</h4>
-                        {getDerivacaoSelecionada() ? getDerivacaoSelecionada().estoque ? <button className="btn btn-success mt-4"><FontAwesomeIcon icon={faCartPlus} /> Adicionar ao carrinho</button> : "Tamanho sem estoque" : "Selecione um tamanho"}
+                        {getDerivacaoSelecionada() ? getDerivacaoSelecionada().estoque ?
+                            <button type="button" className="btn btn-success mt-4" onClick={addDerivacaoSelecionadaOnCart}><FontAwesomeIcon icon={faCartPlus} /> Adicionar ao carrinho</button> : "Tamanho sem estoque"
+                            : "Selecione um tamanho"}
                     </div>
                 </div>
             </div>

@@ -1,10 +1,10 @@
-import React, { useState, useEffect, createContext, useContext } from "react";
+import React, { createContext, useContext } from "react";
 
 import { useNavigate } from "react-router-dom"
 import { toast } from 'react-toastify';
 
 import { auth } from "../services/api"
-import { getProdutoDerivacoesRequest, getProdutosRequest, registerUsuarioRequest } from "../services/api-ecommerce"
+import { getProdutoDerivacoesRequest, getProdutosRequest, registerUsuarioRequest, getCartoes, getEnderecos, registerEnderecoRequest, registerCartaoRequest } from "../services/api-ecommerce"
 import { PublicContext } from "./public";
 
 export const EcommerceContext = createContext();
@@ -13,7 +13,7 @@ export const EcommerceProvider = ({ children }) => {
 
     const navigate = useNavigate();
 
-    const { login } = useContext(PublicContext);
+    const { login, user } = useContext(PublicContext);
 
 
     const getProdutos = async () => {
@@ -61,6 +61,57 @@ export const EcommerceProvider = ({ children }) => {
         }
     };
 
+    const getMeusCartoes = async () => {
+        const response = await getCartoes(user.token);
+        if (response && response.status && response.status == 200) {
+            return response.data.params[0].valor;
+        } else {
+            toast.error('Não foi possível realizar a busca dos seus cartões', {
+                position: toast.POSITION.TOP_CENTER
+            });
+        }
+    }
+
+    const registerCartao = async (card) => {
+        const response = await registerCartaoRequest(card);
+        if (response && response.status && response.status == 200 && response.data && response.data.success) {
+            toast.success('Cartão registrado com sucesso', {
+                position: toast.POSITION.TOP_CENTER
+            });
+            window.location.reload(false);
+        } else {
+            toast.error('Não foi possível registrar o cartão', {
+                position: toast.POSITION.TOP_CENTER
+            });
+        }
+    }
+
+    const getMeusEnderecos = async () => {
+        const response = await getEnderecos(user.token);
+        if (response && response.status && response.status == 200) {
+            return response.data.params[0].valor;
+        } else {
+            toast.error('Não foi possível realizar a busca dos seus endereços', {
+                position: toast.POSITION.TOP_CENTER
+            });
+        }
+    }
+
+    const registerEndereco = async (address) => {
+        const response = await registerEnderecoRequest(address);
+        if (response && response.status && response.status == 200 && response.data && response.data.success) {
+            toast.success('Endereço registrado com sucesso', {
+                position: toast.POSITION.TOP_CENTER
+            });
+            window.location.reload(false);
+        } else {
+            toast.error('Não foi possível registrar o endereço', {
+                position: toast.POSITION.TOP_CENTER
+            });
+        }
+    }
+
+
     return (
         <EcommerceContext.Provider
             value={{
@@ -68,7 +119,11 @@ export const EcommerceProvider = ({ children }) => {
                 getProdutos,
                 getProdutoDerivacoes,
                 registerCliente,
-                loginCliente
+                loginCliente,
+                getMeusEnderecos,
+                registerEndereco,
+                getMeusCartoes,
+                registerCartao
             }}>
             {children}
         </EcommerceContext.Provider>

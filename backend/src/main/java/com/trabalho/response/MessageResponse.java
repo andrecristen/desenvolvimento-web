@@ -44,4 +44,12 @@ public class MessageResponse {
     public void setParams(ArrayList<ParamResponse> params) {
         this.params = params;
     }
+
+    public void addParam(ParamResponse param) {
+        if (this.params == null) {
+            this.params = new ArrayList<>();
+        }
+        this.params.add(param);
+    }
+
 }
