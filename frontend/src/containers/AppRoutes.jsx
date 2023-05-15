@@ -16,6 +16,8 @@ import ProfilePage from "../pages/Ecommerce/ProfilePage";
 import { AdminProvider } from "../contexts/admin";
 import CarrinhoPage from "../pages/Ecommerce/CarrinhoPage";
 import FinalizarPedidoPage from "../pages/Ecommerce/FinalizarPedidopage";
+import AdminLoginPage from "../pages/Admin/AdminLogin";
+import AdminHomePage from "../pages/Admin/AdminHome";
 
 const AppRoutes = () => {
 
@@ -38,7 +40,9 @@ const AppRoutes = () => {
                 </EcommerceProvider>
                 <AdminProvider>
                     <Routes>
-                        <Route exact path="/my-profile" element={<PrivateContainer><ProfilePage /></PrivateContainer>}></Route>
+                        <Route exact path="/admin/login" element={<AdminLoginPage />}></Route>
+                        <Route exact path="/admin/home" element={<PrivateContainer><AdminHomePage /></PrivateContainer>}></Route>
+                        <Route exact path="/admin/profile" element={<PrivateContainer><ProfilePage /></PrivateContainer>}></Route>
                     </Routes>
                 </AdminProvider>
             </PublicProvider>

@@ -15,12 +15,21 @@ export const PublicProvider = ({ children }) => {
     const [cart, setCart] = useState({});
     const [loading, setLoading] = useState(true);
 
+    useEffect(() => {
+        setLoading(true);
+        loadUser();
+        loadCart();
+    }, []);
+
     const loadUser = () => {
+        var userData = null;
         const userSession = localStorage.getItem("userSession");
         if (userSession) {
-            setUser(JSON.parse(userSession));
+            userData = JSON.parse(userSession);
+            setUser();
         }
         setLoading(false);
+        return userData;
     }
 
     const loadCart = () => {
@@ -30,12 +39,6 @@ export const PublicProvider = ({ children }) => {
         }
         setLoading(false);
     }
-
-    useEffect(() => {
-        setLoading(true);
-        loadUser();
-        loadCart();
-    }, []);
 
     const login = async (email, password) => {
         const response = await auth(email, password);
@@ -113,6 +116,7 @@ export const PublicProvider = ({ children }) => {
                 user,
                 login,
                 logout,
+                loadUser,
                 cart,
                 setCartData,
                 addItemOnCart,
