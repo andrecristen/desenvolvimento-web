@@ -61,3 +61,21 @@ export const registerCartaoRequest = async (card) => {
             return error.response;
         });
 }
+
+export const registerPedidoRequest = async (order) => {
+    return api.post('/pedido/add', order)
+        .then((result) => {
+            return result;
+        })
+        .catch((error) => {
+            return error.response;
+        });
+}
+
+export const getPedidos = async (token) => {
+    return api.get('/pedidos/' + token).then((result) => {
+        return result;
+    }).catch((error) => {
+        return error.response;
+    });
+}

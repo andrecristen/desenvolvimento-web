@@ -10,7 +10,7 @@ import Card from "../../../models/Card";
 
 const FinalizarPedidoPage = function () {
 
-    const { getMeusEnderecos, getMeusCartoes, registerEndereco, registerCartao } = useContext(EcommerceContext);
+    const { getMeusEnderecos, getMeusCartoes, registerEndereco, registerCartao, finalizarCompraCarrinho } = useContext(EcommerceContext);
     const { user } = useContext(PublicContext);
 
     const [validatingRegisterNewAddress, setValidatingRegisterNewAddress] = useState(false);
@@ -137,6 +137,7 @@ const FinalizarPedidoPage = function () {
             });
             return;
         }
+        finalizarCompraCarrinho(selectedAddress, selectedCard);
     }
 
     return (

@@ -4,8 +4,9 @@ import { useNavigate } from "react-router-dom"
 import { toast } from 'react-toastify';
 
 import { auth } from "../services/api"
-import { getProdutoDerivacoesRequest, getProdutosRequest, registerUsuarioRequest, getCartoes, getEnderecos, registerEnderecoRequest, registerCartaoRequest } from "../services/api-ecommerce"
+import { getProdutoDerivacoesRequest, getProdutosRequest, registerUsuarioRequest, getCartoes, getEnderecos, registerEnderecoRequest, registerCartaoRequest, registerPedidoRequest, getPedidos } from "../services/api-ecommerce"
 import { PublicContext } from "./public";
+import Order from "../models/Order";
 
 export const EcommerceContext = createContext();
 
@@ -13,7 +14,7 @@ export const EcommerceProvider = ({ children }) => {
 
     const navigate = useNavigate();
 
-    const { login, user } = useContext(PublicContext);
+    const { login, user, cart, clearCart } = useContext(PublicContext);
 
 
     const getProdutos = async () => {
@@ -111,6 +112,52 @@ export const EcommerceProvider = ({ children }) => {
         }
     }
 
+    const finalizarCompraCarrinho = async (address, card) => {
+        const order = new Order();
+        order.cliente = {
+            token: user.token
+        }
+        order.cartao = {
+            id: card.id
+        };
+        order.endereco = {
+            id: address.id
+        };
+        order.produtos = [];
+        Object.entries(cart).map(([key, item]) => {
+            order.produtos.push({
+                produtoDerivacao: {
+                    id: item.id
+                },
+                quantidade: parseInt(item.quantidade),
+                preco: item.preco
+            });
+        });
+        const response = await registerPedidoRequest(order);
+        if (response && response.status && response.status == 200 && response.data && response.data.success) {
+            toast.success('Pedido registrado com sucesso', {
+                position: toast.POSITION.TOP_CENTER
+            });
+            clearCart();
+            navigate("/");
+        } else {
+            toast.error('Não foi possível registrar o pedido', {
+                position: toast.POSITION.TOP_CENTER
+            });
+        }
+    }
+
+    const getMeusPedidos = async () => {
+        const response = await getPedidos(user.token);
+        if (response && response.status && response.status == 200) {
+            return response.data.params[0].valor;
+        } else {
+            toast.error('Não foi possível realizar a busca dos seus pedidos', {
+                position: toast.POSITION.TOP_CENTER
+            });
+        }
+    }
+
 
     return (
         <EcommerceContext.Provider
@@ -123,7 +170,9 @@ export const EcommerceProvider = ({ children }) => {
                 getMeusEnderecos,
                 registerEndereco,
                 getMeusCartoes,
-                registerCartao
+                registerCartao,
+                finalizarCompraCarrinho,
+                getMeusPedidos
             }}>
             {children}
         </EcommerceContext.Provider>

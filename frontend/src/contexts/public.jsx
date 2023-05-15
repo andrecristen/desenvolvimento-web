@@ -100,6 +100,10 @@ export const PublicProvider = ({ children }) => {
         navigate("/cart");
     }
 
+    const clearCart = () => {
+        setCartData({})
+    }
+
 
     return (
         <PublicContext.Provider
@@ -113,7 +117,8 @@ export const PublicProvider = ({ children }) => {
                 setCartData,
                 addItemOnCart,
                 updateItemOnCart,
-                removeItemOnCart
+                removeItemOnCart,
+                clearCart
             }}>
             {children}
         </PublicContext.Provider>

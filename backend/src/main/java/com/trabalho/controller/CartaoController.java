@@ -1,6 +1,5 @@
 package com.trabalho.controller;
 
-import com.trabalho.controller.abstracts.ValidaPermissaoController;
 import com.trabalho.model.Cartao;
 import com.trabalho.model.Usuario;
 import com.trabalho.repository.CartaoRepository;
