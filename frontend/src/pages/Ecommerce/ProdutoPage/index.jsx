@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import Menu from "../../../components/Ecommerce/Menu";
 import { EcommerceContext } from "../../../contexts/ecommerce";
 import { PublicContext } from "../../../contexts/public";
-import { toast } from "react-toastify";
+import { errorMessage } from "../../../components/UI/notify";
 
 const ProdutoPage = function () {
 
@@ -31,9 +31,7 @@ const ProdutoPage = function () {
         if (getDerivacaoSelecionada()) {
             addItemOnCart(getDerivacaoSelecionada())
         } else {
-            toast.error('Selecione um tamanho para adicionar ao carrinho.', {
-                position: toast.POSITION.TOP_CENTER
-            });
+            errorMessage('Selecione um tamanho para adicionar ao carrinho.');
         }
     }
 

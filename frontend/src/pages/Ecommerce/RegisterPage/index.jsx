@@ -4,9 +4,9 @@ import "./styles.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import User from "../../../models/User";
-import { toast } from 'react-toastify';
 import Menu from "../../../components/Ecommerce/Menu";
 import { EcommerceContext } from "../../../contexts/ecommerce";
+import { errorMessage } from "../../../components/UI/notify";
 
 
 
@@ -55,14 +55,10 @@ const RegisterPage = function () {
                 setValidatingRegister(false);
             } else {
                 setValidatingRegister(false);
-                toast.error('Os campos Senha e Confirme sua Senha devem ser iguais.', {
-                    position: toast.POSITION.TOP_CENTER
-                });
+                errorMessage('Os campos Senha e Confirme sua Senha devem ser iguais.');
             }
         } else {
-            toast.error('Registro em processamento, aguarde finalização.', {
-                position: toast.POSITION.TOP_CENTER
-            });
+            errorMessage('Registro em processamento, aguarde finalização.');
         }
         
     }

@@ -4,8 +4,8 @@ import CarrinhoPage from "../CarrinhoPage";
 import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Address from "../../../models/Address";
 import { PublicContext } from "../../../contexts/public";
-import { toast } from "react-toastify";
 import Card from "../../../models/Card";
+import { errorMessage } from "../../../components/UI/notify";
 
 
 const FinalizarPedidoPage = function () {
@@ -78,14 +78,10 @@ const FinalizarPedidoPage = function () {
                 setValidatingRegisterNewAddress(false);
             } else {
                 setValidatingRegisterNewAddress(false);
-                toast.error('Preencha todos os campos.', {
-                    position: toast.POSITION.TOP_CENTER
-                });
+                errorMessage('Preencha todos os campos.');
             }
         } else {
-            toast.error('Registro em processamento, aguarde finalização.', {
-                position: toast.POSITION.TOP_CENTER
-            });
+            errorMessage('Registro em processamento, aguarde finalização.');
         }
     }
 
@@ -113,28 +109,20 @@ const FinalizarPedidoPage = function () {
                 setValidatingRegisterNewCard(false);
             } else {
                 setValidatingRegisterNewCard(false);
-                toast.error('Preencha todos os campos.', {
-                    position: toast.POSITION.TOP_CENTER
-                });
+                errorMessage('Preencha todos os campos.');
             }
         } else {
-            toast.error('Registro em processamento, aguarde finalização.', {
-                position: toast.POSITION.TOP_CENTER
-            });
+            errorMessage('Registro em processamento, aguarde finalização.');
         }
     }
 
     const handleSubmitCompra = () => {
         if (!selectedAddress) {
-            toast.error('Selecione um endereço para realização da compra.', {
-                position: toast.POSITION.TOP_CENTER
-            });
+            errorMessage('Selecione um endereço para realização da compra.');
             return;
         }
         if (!selectedCard) {
-            toast.error('Selecione um cartão para realização da compra.', {
-                position: toast.POSITION.TOP_CENTER
-            });
+            errorMessage('Selecione um cartão para realização da compra.');
             return;
         }
         finalizarCompraCarrinho(selectedAddress, selectedCard);

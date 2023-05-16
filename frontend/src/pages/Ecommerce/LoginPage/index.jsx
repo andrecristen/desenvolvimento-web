@@ -1,7 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
 
-import 'react-toastify/dist/ReactToastify.css';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignInAlt, faSpinner } from '@fortawesome/free-solid-svg-icons'
 
@@ -10,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Menu from "../../../components/Ecommerce/Menu";
 import { EcommerceContext } from "../../../contexts/ecommerce";
 import { PublicContext } from "../../../contexts/public";
-import { toast } from "react-toastify";
+import { infoMessage } from "../../../components/UI/notify";
 
 const LoginPage = function () {
 
@@ -28,9 +26,7 @@ const LoginPage = function () {
     }
 
     if (authenticated) {
-        toast.info('Usuário já logado', {
-            position: toast.POSITION.TOP_CENTER
-        });
+        infoMessage('Usuário já logado');
         navigate("/");
     }
 

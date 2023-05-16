@@ -3,9 +3,9 @@ import Menu from "../../../components/Ecommerce/Menu";
 import { AdminContext } from "../../../contexts/admin";
 import { PublicContext } from "../../../contexts/public";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { infoMessage } from "../../../components/UI/notify";
 
 const AdminLoginPage = function () {
 
@@ -19,9 +19,7 @@ const AdminLoginPage = function () {
     const [password, setPassword] = useState('');
 
     if (authenticated) {
-        toast.info('Usuário já logado', {
-            position: toast.POSITION.TOP_CENTER
-        });
+        infoMessage('Usuário já logado');
         navigate("/");
     }
 

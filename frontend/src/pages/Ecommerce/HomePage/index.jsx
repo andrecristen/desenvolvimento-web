@@ -1,4 +1,3 @@
-import 'react-toastify/dist/ReactToastify.css';
 import Menu from "../../../components/Ecommerce/Menu";
 import Produto from "../../../components/Ecommerce/Produto";
 import { useContext, useEffect, useState } from "react";

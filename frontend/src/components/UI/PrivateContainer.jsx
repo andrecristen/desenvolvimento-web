@@ -4,9 +4,10 @@ import {
 
 import { useContext, useState } from "react";
 import { PublicContext } from "../../contexts/public";
-import { toast } from "react-toastify";
+import {errorMessage} from "./notify.js";
 
 const PrivateContainer = ({ children }) => {
+
 
     const [notificado, setNotificado] = useState(false);
 
@@ -18,9 +19,7 @@ const PrivateContainer = ({ children }) => {
 
     if (!authenticated) {
         if (!notificado) {
-            toast.error('Você precisa estar logado para acessar essa página', {
-                position: toast.POSITION.TOP_CENTER
-            });
+            errorMessage('Você precisa estar logado para acessar essa página');
             setNotificado(true);
         }
         return (<Navigate to="/" />);

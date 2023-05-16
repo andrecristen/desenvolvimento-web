@@ -1,12 +1,12 @@
 import React, { createContext, useContext } from "react";
 
 import { useNavigate } from "react-router-dom"
-import { toast } from 'react-toastify';
 
 import { auth } from "../services/api"
 import { getProdutoDerivacoesRequest, getProdutosRequest, registerUsuarioRequest, getCartoes, getEnderecos, registerEnderecoRequest, registerCartaoRequest, registerPedidoRequest, getPedidos } from "../services/api-ecommerce"
 import { PublicContext } from "./public";
 import Order from "../models/Order";
+import { errorMessage, successMessage } from "../components/UI/notify";
 
 export const EcommerceContext = createContext();
 
@@ -22,9 +22,7 @@ export const EcommerceProvider = ({ children }) => {
         if (response && response.status && response.status == 200) {
             return response.data.content;
         } else {
-            toast.error('Não foi possível realizar a busca de produtos', {
-                position: toast.POSITION.TOP_CENTER
-            });
+            errorMessage('Não foi possível realizar a busca de produtos');
         }
     }
 
@@ -33,23 +31,17 @@ export const EcommerceProvider = ({ children }) => {
         if (response && response.status && response.status == 200) {
             return response.data;
         } else {
-            toast.error('Não foi possível realizar a busca de derivações do produto ' + id, {
-                position: toast.POSITION.TOP_CENTER
-            });
+            errorMessage('Não foi possível realizar a busca de derivações do produto ' + id);
         }
     }
 
     const registerCliente = async (user) => {
         const response = await registerUsuarioRequest(user);
         if (response && response.status && response.status == 200) {
-            toast.success('Cliente registrado com sucesso', {
-                position: toast.POSITION.TOP_CENTER
-            });
+            successMessage('Cliente registrado com sucesso');
             navigate("/login");
         } else {
-            toast.error('Não foi possível se registrar', {
-                position: toast.POSITION.TOP_CENTER
-            });
+            errorMessage('Não foi possível se registrar');
         }
     }
 
@@ -67,23 +59,17 @@ export const EcommerceProvider = ({ children }) => {
         if (response && response.status && response.status == 200) {
             return response.data.params[0].valor;
         } else {
-            toast.error('Não foi possível realizar a busca dos seus cartões', {
-                position: toast.POSITION.TOP_CENTER
-            });
+            errorMessage('Não foi possível realizar a busca dos seus cartões');
         }
     }
 
     const registerCartao = async (card) => {
         const response = await registerCartaoRequest(card);
         if (response && response.status && response.status == 200 && response.data && response.data.success) {
-            toast.success('Cartão registrado com sucesso', {
-                position: toast.POSITION.TOP_CENTER
-            });
+            successMessage('Cartão registrado com sucesso');
             window.location.reload(false);
         } else {
-            toast.error('Não foi possível registrar o cartão', {
-                position: toast.POSITION.TOP_CENTER
-            });
+            errorMessage('Não foi possível registrar o cartão');
         }
     }
 
@@ -92,23 +78,17 @@ export const EcommerceProvider = ({ children }) => {
         if (response && response.status && response.status == 200) {
             return response.data.params[0].valor;
         } else {
-            toast.error('Não foi possível realizar a busca dos seus endereços', {
-                position: toast.POSITION.TOP_CENTER
-            });
+            errorMessage('Não foi possível realizar a busca dos seus endereços');
         }
     }
 
     const registerEndereco = async (address) => {
         const response = await registerEnderecoRequest(address);
         if (response && response.status && response.status == 200 && response.data && response.data.success) {
-            toast.success('Endereço registrado com sucesso', {
-                position: toast.POSITION.TOP_CENTER
-            });
+            successMessage('Endereço registrado com sucesso');
             window.location.reload(false);
         } else {
-            toast.error('Não foi possível registrar o endereço', {
-                position: toast.POSITION.TOP_CENTER
-            });
+            errorMessage('Não foi possível registrar o endereço');
         }
     }
 
@@ -135,15 +115,11 @@ export const EcommerceProvider = ({ children }) => {
         });
         const response = await registerPedidoRequest(order);
         if (response && response.status && response.status == 200 && response.data && response.data.success) {
-            toast.success('Pedido registrado com sucesso', {
-                position: toast.POSITION.TOP_CENTER
-            });
+            successMessage('Pedido registrado com sucesso');
             clearCart();
             navigate("/");
         } else {
-            toast.error('Não foi possível registrar o pedido', {
-                position: toast.POSITION.TOP_CENTER
-            });
+            errorMessage('Não foi possível registrar o pedido');
         }
     }
 
@@ -152,9 +128,7 @@ export const EcommerceProvider = ({ children }) => {
         if (response && response.status && response.status == 200) {
             return response.data.params[0].valor;
         } else {
-            toast.error('Não foi possível realizar a busca dos seus pedidos', {
-                position: toast.POSITION.TOP_CENTER
-            });
+            errorMessage('Não foi possível realizar a busca dos seus pedidos');
         }
     }
 

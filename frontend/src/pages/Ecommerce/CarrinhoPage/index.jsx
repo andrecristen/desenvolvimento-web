@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Menu from "../../../components/Ecommerce/Menu";
 import { PublicContext } from "../../../contexts/public";
-import { toast } from "react-toastify";
+import { infoMessage } from "../../../components/UI/notify";
 
 const CarrinhoPage = function (props) {
 
@@ -30,9 +30,7 @@ const CarrinhoPage = function (props) {
 
     const handleFinalizarCompra = () => {
         if (!authenticated) {
-            toast.info('Por favor efetue login antes de finalizar a compra.', {
-                position: toast.POSITION.TOP_CENTER
-            });
+            infoMessage('Por favor efetue login antes de finalizar a compra.');
             navigate("/login");
         } else {
             navigate("/finalizar-pedido");

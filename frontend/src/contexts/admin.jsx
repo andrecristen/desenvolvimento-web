@@ -1,11 +1,11 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
 
 import { useNavigate } from "react-router-dom"
-import { toast } from 'react-toastify';
 
 import { auth } from "../services/api"
 import { PublicContext } from "./public";
 import User from "../models/User";
+import { errorMessage } from "../components/UI/notify";
 
 export const AdminContext = createContext();
 
@@ -22,9 +22,7 @@ export const AdminProvider = ({ children }) => {
             if (loadUser().tipo == userInstance.TIPO_ADMINISTRADOR) {
                 navigate("/admin/home");   
             } else {
-                toast.error('Tipo de usuário não possui privilégio para acessar essa área do sistema.', {
-                    position: toast.POSITION.TOP_CENTER
-                });
+                errorMessage('Tipo de usuário não possui privilégio para acessar essa área do sistema.');
                 logout();
             }
         } else {

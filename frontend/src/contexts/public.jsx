@@ -1,9 +1,9 @@
 import React, { useState, useEffect, createContext } from "react";
 
 import { useNavigate } from "react-router-dom"
-import { toast } from 'react-toastify';
 
 import { auth, create } from "../services/api"
+import { errorMessage, successMessage } from "../components/UI/notify";
 
 export const PublicContext = createContext();
 
@@ -51,9 +51,7 @@ export const PublicProvider = ({ children }) => {
             setUser(userData);
             return true;
         } else {
-            toast.error('Não foi possível realizar o login com as credenciais informadas.', {
-                position: toast.POSITION.TOP_CENTER
-            });
+            errorMessage('Não foi possível realizar o login com as credenciais informadas.');
             return false;
         }
     };
@@ -77,18 +75,14 @@ export const PublicProvider = ({ children }) => {
             cart[item.id].quantidade++;
         }
         setCartData(cart);
-        toast.success('Produto adicionado ao carrinho.', {
-            position: toast.POSITION.TOP_CENTER
-        });
+        successMessage('Produto adicionado ao carrinho.');
         navigate("/cart");
     }
 
     const updateItemOnCart = (item) => {
         cart[item.id] = item;
         setCartData(cart);
-        toast.success('Produto alterado no carrinho.', {
-            position: toast.POSITION.TOP_CENTER
-        });
+        successMessage('Produto alterado no carrinho.');
         navigate("/cart");
     }
 
@@ -97,9 +91,7 @@ export const PublicProvider = ({ children }) => {
             delete cart[id];
         }
         setCartData(cart);
-        toast.success('Produto removido do carrinho.', {
-            position: toast.POSITION.TOP_CENTER
-        });
+        successMessage('Produto removido do carrinho.');
         navigate("/cart");
     }
 
