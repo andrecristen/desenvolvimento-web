@@ -65,8 +65,8 @@ const LoginPage = function () {
                                 <label htmlFor="password">Senha:</label>
                                 <input type="password" className="form-control" id="password" value={password} onChange={handlePasswordChange} />
                             </div>
-                            <button type="button" className="btn btn-secondary mt-4" onClick={navigateRegister}><FontAwesomeIcon icon={faSignInAlt} /> Cadastrar-se {validatingLogin ? <FontAwesomeIcon icon={faSpinner} spin /> : ''}</button>
-                            <button type="submit" className="btn btn-primary mt-4"><FontAwesomeIcon icon={faSignInAlt} /> Entrar</button>
+                            <button type="button" className="btn btn-secondary mt-4" onClick={navigateRegister}><FontAwesomeIcon icon={faSignInAlt} /> Cadastrar-se</button>
+                            <button type="submit" className="btn btn-primary mt-4"><FontAwesomeIcon icon={faSignInAlt} /> Entrar {validatingLogin ? <FontAwesomeIcon icon={faSpinner} spin /> : ''}</button>
                         </form>
                     </div>
                 </div>
