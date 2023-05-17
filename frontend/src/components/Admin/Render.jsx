@@ -8,7 +8,9 @@ const Render = (props) => {
 
     const navigate = useNavigate();
 
-    const { logout, user } = useContext(PublicContext);
+    const { logout, loadUser } = useContext(PublicContext);
+
+    const user = loadUser();
 
     const onClickLogout = () => {
         logout();

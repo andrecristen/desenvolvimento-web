@@ -24,8 +24,13 @@ import AdminPedidoPagoList from "../pages/Admin/AdminPedidoList/pagos";
 import AdminPedidoEntregueList from "../pages/Admin/AdminPedidoList/entregues";
 import AdminUsuarioClienteList from "../pages/Admin/AdminUsuarioList/clientes";
 import AdminUsuarioAdmistradorList from "../pages/Admin/AdminUsuarioList/administradores";
+import User from "../models/User";
 
 const AppRoutes = () => {
+
+    const userInstance = new User();
+    const TIPO_ADMINISTRADOR = userInstance.TIPO_ADMINISTRADOR;
+    const TIPO_CLIENTE = userInstance.TIPO_CLIENTE;
 
     return (
         <Router>
@@ -40,21 +45,21 @@ const AppRoutes = () => {
                         <Route exact path="/login" element={<LoginPage />}></Route>
                         <Route exact path="/produto/:id" element={<ProdutoPage />}></Route>
                         <Route exact path="/cart" element={<CarrinhoPage />}></Route>
-                        <Route exact path="/finalizar-pedido" element={<PrivateContainer><FinalizarPedidoPage /></PrivateContainer>}></Route>
-                        <Route exact path="/profile" element={<PrivateContainer><ProfilePage /></PrivateContainer>}></Route>
+                        <Route exact path="/finalizar-pedido" element={<PrivateContainer tipo={TIPO_CLIENTE}><FinalizarPedidoPage /></PrivateContainer>}></Route>
+                        <Route exact path="/profile" element={<PrivateContainer tipo={TIPO_CLIENTE}><ProfilePage /></PrivateContainer>}></Route>
                     </Routes>
                 </EcommerceProvider>
                 <AdminProvider>
                     <Routes>
                         <Route exact path="/admin/login" element={<AdminLoginPage />}></Route>
-                        <Route exact path="/admin/home" element={<PrivateContainer><AdminHomePage /></PrivateContainer>}></Route>
-                        <Route exact path="/admin/produtos" element={<PrivateContainer><AdminProdutoList /></PrivateContainer>}></Route>
-                        <Route exact path="/admin/pedidos/nao-pagos" element={<PrivateContainer><AdminPedidoNaoPagoList /></PrivateContainer>}></Route>
-                        <Route exact path="/admin/pedidos/pagos" element={<PrivateContainer><AdminPedidoPagoList /></PrivateContainer>}></Route>
-                        <Route exact path="/admin/pedidos/entregues" element={<PrivateContainer><AdminPedidoEntregueList /></PrivateContainer>}></Route>
-                        <Route exact path="/admin/usuarios/clientes" element={<PrivateContainer><AdminUsuarioClienteList /></PrivateContainer>}></Route>
-                        <Route exact path="/admin/usuarios/admins" element={<PrivateContainer><AdminUsuarioAdmistradorList /></PrivateContainer>}></Route>
-                        <Route exact path="/admin/profile" element={<PrivateContainer><ProfilePage /></PrivateContainer>}></Route>
+                        <Route exact path="/admin/home" element={<PrivateContainer tipo={TIPO_ADMINISTRADOR}><AdminHomePage /></PrivateContainer>}></Route>
+                        <Route exact path="/admin/produtos" element={<PrivateContainer tipo={TIPO_ADMINISTRADOR}><AdminProdutoList /></PrivateContainer>}></Route>
+                        <Route exact path="/admin/pedidos/nao-pagos" element={<PrivateContainer tipo={TIPO_ADMINISTRADOR}><AdminPedidoNaoPagoList /></PrivateContainer>}></Route>
+                        <Route exact path="/admin/pedidos/pagos" element={<PrivateContainer tipo={TIPO_ADMINISTRADOR}><AdminPedidoPagoList /></PrivateContainer>}></Route>
+                        <Route exact path="/admin/pedidos/entregues" element={<PrivateContainer tipo={TIPO_ADMINISTRADOR}><AdminPedidoEntregueList /></PrivateContainer>}></Route>
+                        <Route exact path="/admin/usuarios/clientes" element={<PrivateContainer tipo={TIPO_ADMINISTRADOR}><AdminUsuarioClienteList /></PrivateContainer>}></Route>
+                        <Route exact path="/admin/usuarios/admins" element={<PrivateContainer tipo={TIPO_ADMINISTRADOR}><AdminUsuarioAdmistradorList /></PrivateContainer>}></Route>
+                        <Route exact path="/admin/profile" element={<PrivateContainer tipo={TIPO_ADMINISTRADOR}><ProfilePage /></PrivateContainer>}></Route>
                     </Routes>
                 </AdminProvider>
             </PublicProvider>

@@ -3,7 +3,7 @@ import React, { useState, useEffect, createContext } from "react";
 import { useNavigate } from "react-router-dom"
 
 import { auth, create } from "../services/api"
-import { errorMessage, successMessage } from "../components/UI/notify";
+import { errorMessage, infoMessage, successMessage } from "../components/UI/notify";
 
 export const PublicContext = createContext();
 
@@ -59,6 +59,7 @@ export const PublicProvider = ({ children }) => {
     const logout = async () => {
         localStorage.removeItem("userSession");
         setUser(null);
+        infoMessage('Deslogado com sucesso.');
         navigate("/");
     };
 
