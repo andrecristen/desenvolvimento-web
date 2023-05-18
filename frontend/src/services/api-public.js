@@ -29,3 +29,11 @@ export const create = async (user) => {
             return error.response;
         });
 }
+
+export const getProdutosRequest = async () => {
+    return api.get('/produtos').then((result) => {
+        return result;
+    }).catch((error) => {
+        return error.response;
+    });
+}

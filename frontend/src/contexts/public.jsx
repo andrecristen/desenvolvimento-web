@@ -2,7 +2,7 @@ import React, { useState, useEffect, createContext } from "react";
 
 import { useNavigate } from "react-router-dom"
 
-import { auth, create } from "../services/api"
+import { auth, create } from "../services/api-public"
 import { errorMessage, infoMessage, successMessage } from "../components/UI/notify";
 
 export const PublicContext = createContext();
