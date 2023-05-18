@@ -2,8 +2,8 @@ import React, { createContext, useContext } from "react";
 
 import { useNavigate } from "react-router-dom"
 
-import { auth, getProdutosRequest } from "../services/api-public"
-import { getProdutoDerivacoesRequest, registerUsuarioRequest, getCartoes, getEnderecos, registerEnderecoRequest, registerCartaoRequest, registerPedidoRequest, getPedidos } from "../services/api-ecommerce"
+import { auth, getProdutosRequest, getProdutoDerivacoesRequest } from "../services/api-public"
+import { registerUsuarioRequest, getCartoes, getEnderecos, registerEnderecoRequest, registerCartaoRequest, registerPedidoRequest, getPedidos } from "../services/api-ecommerce"
 import { PublicContext } from "./public";
 import Order from "../models/Order";
 import { errorMessage, successMessage } from "../components/UI/notify";

@@ -9,8 +9,9 @@ import { AdminContext } from "../../../contexts/admin";
 
 const AdminProdutoForm = function (props) {
 
-    const { addProduto } = useContext(AdminContext);
+    const { getProdutoDerivacoes, addProduto, editProduto } = useContext(AdminContext);
     const [sending, setSending] = useState(false);
+    let { id } = useParams();
 
     const [formData, setFormData] = useState({
         produto: {
@@ -21,6 +22,16 @@ const AdminProdutoForm = function (props) {
         },
         produtosDerivacoes: [],
     });
+
+    useEffect(() => {
+        if (id) {
+            getProdutoDerivacoes(id).then((data) => {
+                setFormData(data);
+            }).catch((exc) => {
+                console.log(exc);
+            });
+        }
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value, dataset } = e.target;
@@ -52,8 +63,8 @@ const AdminProdutoForm = function (props) {
                 {
                     id: null,
                     tamanho: '',
-                    estoque: '',
-                    preco: '',
+                    estoque: 0,
+                    preco: null,
                 },
             ],
         }));
@@ -96,11 +107,11 @@ const AdminProdutoForm = function (props) {
                 errors.push('Campo tamanho obrigatório');
             }
 
-            if (derivacao.estoque.trim() === '') {
+            if (derivacao.estoque === null || derivacao.estoque.toString().trim() === '') {
                 errors.push('Campo estoque obrigatório');
             }
 
-            if (derivacao.preco.trim() === '') {
+            if (derivacao.preco === null|| derivacao.preco.toString().trim() === '') {
                 errors.push('Campo preço obrigatório');
             }
         });
@@ -108,7 +119,11 @@ const AdminProdutoForm = function (props) {
             infoMessage(<div>{errors.join(' - ')}</div>)
         } else {
             setSending(true);
-            await addProduto(formData);
+            if (id) {
+                await editProduto(formData);
+            } else {
+                await addProduto(formData);
+            }
             setSending(false);
         }
     };
@@ -178,6 +193,8 @@ const AdminProdutoForm = function (props) {
                                 data-index={index}
                                 data-field="estoque"
                                 value={derivacao.estoque}
+                                step={1}
+                                pattern="[0-9]" 
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -195,7 +212,7 @@ const AdminProdutoForm = function (props) {
                                 onChange={handleInputChange}
                             />
                         </div>
-                        {index >= 0 && (
+                        {derivacao.id == null && (
                             <button
                                 type="button"
                                 className="btn btn-danger"
@@ -215,8 +232,8 @@ const AdminProdutoForm = function (props) {
                 >
                     Adicionar Derivação
                 </button>
-                <br/>
-                <br/>
+                <br />
+                <br />
                 <button type="submit" className="btn btn-lg btn-success mt-3">
                     Confirmar Cadastro
                 </button>
@@ -224,31 +241,4 @@ const AdminProdutoForm = function (props) {
         </Render>
     );
 }
-
-/*
-{
-    "produto" : {
-        "nome": "Teste 13",
-        "descricao": "Teste Descrição 13",
-        "linkImagem": "https://images.tcdn.com.br/img/img_prod/606732/produto_teste_3919_1_85010fa0e84b19ffcfe78386f6f702cd.jpg"
-    },
-    "produtosDerivacoes": [
-        {
-            "tamanho": "P",
-            "estoque": 10,
-            "preco": 12.25
-        },
-        {
-            "tamanho": "M",
-            "estoque": 12,
-            "preco": 12.50
-        },
-        {
-            "tamanho": "G",
-            "estoque": 11,
-            "preco": 12.75
-        }
-    ]
-}
-*/
 export default AdminProdutoForm;

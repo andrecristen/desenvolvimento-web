@@ -37,3 +37,11 @@ export const getProdutosRequest = async () => {
         return error.response;
     });
 }
+
+export const getProdutoDerivacoesRequest = async (id) => {
+    return api.get('/produto/' + id + '/derivacoes').then((result) => {
+        return result;
+    }).catch((error) => {
+        return error.response;
+    });
+}
