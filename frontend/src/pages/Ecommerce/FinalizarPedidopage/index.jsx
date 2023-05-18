@@ -6,12 +6,16 @@ import Address from "../../../models/Address";
 import { PublicContext } from "../../../contexts/public";
 import Card from "../../../models/Card";
 import { errorMessage } from "../../../components/UI/notify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAddressCard, faBagShopping, faCreditCard } from "@fortawesome/free-solid-svg-icons";
 
 
 const FinalizarPedidoPage = function () {
 
     const { getMeusEnderecos, getMeusCartoes, registerEndereco, registerCartao, finalizarCompraCarrinho } = useContext(EcommerceContext);
-    const { user } = useContext(PublicContext);
+    const { loadUser } = useContext(PublicContext);
+
+    const user = loadUser();
 
     const [validatingRegisterNewAddress, setValidatingRegisterNewAddress] = useState(false);
     const [newAddressLogradouro, setNewAddressLogradouro] = useState('');
@@ -135,7 +139,7 @@ const FinalizarPedidoPage = function () {
             <div className="container">
                 <div className="row mt-3">
                     <div className="col-12 col-md-6">
-                        <h3>Selecione o endereço de entrega</h3>
+                        <h3>Selecione o endereço de entrega <FontAwesomeIcon icon={faAddressCard}/></h3>
                         <button type="button" onClick={handleModalEnderecoShow} className="btn btn-primary">Adicionar novo endereço</button>
                         {addressList.map((address) => (
                             <div
@@ -190,7 +194,7 @@ const FinalizarPedidoPage = function () {
                         </>
                     </div>
                     <div className="col-12 col-md-6">
-                        <h3>Selecione o cartão</h3>
+                        <h3>Selecione o cartão <FontAwesomeIcon icon={faCreditCard}/></h3>
                         <button type="button" onClick={handleModalCartaoShow} className="btn btn-primary">Adicionar novo cartão</button>
                         {cardList.map((card) => (
                             <div
@@ -237,7 +241,7 @@ const FinalizarPedidoPage = function () {
                     </div>
                 </div>
             </div>
-            <button type="button" onClick={handleSubmitCompra} className="btn btn-lg btn-success">FINALIZAR COMPRA</button>
+            <button type="button" onClick={handleSubmitCompra} className="btn btn-lg btn-success">FINALIZAR COMPRA <FontAwesomeIcon icon={faBagShopping}/></button>
         </div>
     );
 

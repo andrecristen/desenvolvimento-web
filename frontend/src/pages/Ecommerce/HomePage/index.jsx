@@ -5,13 +5,24 @@ import { EcommerceContext } from '../../../contexts/ecommerce';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import { PublicContext } from "../../../contexts/public";
+import User from "../../../models/User";
 
 const HomePage = function () {
 
     const { getProdutos } = useContext(EcommerceContext);
+    const { loadUser } = useContext(PublicContext);
     const [produtos, setProdutos] = useState([]);
 
     const navigate = useNavigate();
+
+    const user = loadUser();
+
+    const userInstance = new User();
+
+    if (user && user.tipo && user.tipo == userInstance.TIPO_ADMINISTRADOR) {
+        navigate("/admin/home");
+    }
 
     useEffect(() => {
         load();

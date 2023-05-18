@@ -9,9 +9,10 @@ import java.math.BigDecimal;
 @Table(name = "pedido")
 public class Pedido {
 
-    public static final int TIPO_PAGO = 1;
-    public static final int TIPO_EM_ENTREGA = 2;
-    public static final int TIPO_ENTREGUE = 3;
+    public static final int TIPO_NAO_PAGO = 1;
+    public static final int TIPO_PAGO = 2;
+    public static final int TIPO_EM_ENTREGA = 3;
+    public static final int TIPO_ENTREGUE = 4;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,6 +1,6 @@
 import "./render.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBagShopping, faCreditCard, faDashboard, faDragon, faMoneyBill, faShop, faUserFriends, faUserGear } from "@fortawesome/free-solid-svg-icons";
+import { faBackward, faBagShopping, faCreditCard, faDashboard, faDragon, faMoneyBill, faShop, faUserFriends, faUserGear } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from "react";
 import { PublicContext } from "../../contexts/public";
 import { useNavigate } from "react-router-dom";
@@ -73,6 +73,9 @@ const Render = (props) => {
                         </div>
                     </nav>
                     <main role="main" className="col-md-10 pt-3 px-4">
+                        <div className="col-sm-12">
+                        <button onClick={() => {navigate(-1)}} style={{"float" : "right"}} className="btn btn-sm btn-link float-left"><FontAwesomeIcon icon={faBackward}/> Voltar</button>
+                        </div>
                         {props.children}
                     </main>
                 </div>

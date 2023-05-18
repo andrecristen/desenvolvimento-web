@@ -111,7 +111,7 @@ const AdminProdutoForm = function (props) {
                 errors.push('Campo estoque obrigatório');
             }
 
-            if (derivacao.preco === null|| derivacao.preco.toString().trim() === '') {
+            if (derivacao.preco === null || derivacao.preco.toString().trim() === '') {
                 errors.push('Campo preço obrigatório');
             }
         });
@@ -165,6 +165,13 @@ const AdminProdutoForm = function (props) {
                         onChange={handleInputChange}
                     />
                 </div>
+                {formData.produto.linkImagem ?
+                    <div className="form-group">
+                        <label htmlFor="linkImagem">Preview da Imagem:</label>
+                        <div className="col-md-12">
+                            <img className="img-fluid" src={formData.produto.linkImagem} alt="Imagem do produto" />
+                        </div>
+                    </div> : ""}
 
                 <h2>Produtos Derivações</h2>
                 {formData.produtosDerivacoes.map((derivacao, index) => (
@@ -194,7 +201,7 @@ const AdminProdutoForm = function (props) {
                                 data-field="estoque"
                                 value={derivacao.estoque}
                                 step={1}
-                                pattern="[0-9]" 
+                                pattern="[0-9]"
                                 onChange={handleInputChange}
                             />
                         </div>

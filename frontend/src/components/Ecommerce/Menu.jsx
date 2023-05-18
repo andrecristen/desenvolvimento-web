@@ -3,16 +3,13 @@ import { PublicContext } from "../../contexts/public";
 
 const Menu = (props) => {
 
-    const { logout, authenticated, cart } = useContext(PublicContext);
+    const { logout, loadUser, cart } = useContext(PublicContext);
 
     const onClickLogout = () => {
         logout();
     }
 
-    useEffect(() => {
-
-    }, [authenticated]);
-
+    const authenticated = loadUser();
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={{ "padding": "10px" }}>

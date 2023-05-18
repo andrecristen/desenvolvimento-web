@@ -14,8 +14,9 @@ export const EcommerceProvider = ({ children }) => {
 
     const navigate = useNavigate();
 
-    const { login, user, cart, clearCart } = useContext(PublicContext);
+    const { login, loadUser, cart, clearCart } = useContext(PublicContext);
 
+    const user = loadUser();
 
     const getProdutos = async () => {
         const response = await getProdutosRequest();
@@ -117,9 +118,9 @@ export const EcommerceProvider = ({ children }) => {
         if (response && response.status && response.status == 200 && response.data && response.data.success) {
             successMessage('Pedido registrado com sucesso');
             clearCart();
-            navigate("/");
+            navigate("/profile");
         } else {
-            errorMessage('Não foi possível registrar o pedido');
+            errorMessage('Não foi possível registrar o pedido: "' + response.data.message +'"');
         }
     }
 

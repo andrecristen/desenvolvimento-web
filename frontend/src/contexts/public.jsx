@@ -104,9 +104,7 @@ export const PublicProvider = ({ children }) => {
     return (
         <PublicContext.Provider
             value={{
-                authenticated: user,
                 loading,
-                user,
                 login,
                 logout,
                 loadUser,

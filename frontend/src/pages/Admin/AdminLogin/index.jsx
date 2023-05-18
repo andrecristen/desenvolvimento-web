@@ -12,15 +12,16 @@ const AdminLoginPage = function () {
     let navigate = useNavigate();
 
     const { loginAdmin } = useContext(AdminContext);
-    const { authenticated } = useContext(PublicContext);
+    const { loadUser } = useContext(PublicContext);
+
+    const authenticated = loadUser();
 
     const [validatingLogin, setValidatingLogin] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     if (authenticated) {
-        infoMessage('Usuário já logado');
-        navigate("/");
+        navigate("/admin/home");
     }
 
     const handleEmailChange = (event) => {

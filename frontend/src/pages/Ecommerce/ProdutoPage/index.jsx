@@ -53,10 +53,10 @@ const ProdutoPage = function () {
             <Menu></Menu>
             <div className="container mt-4">
                 <div className="row">
-                    <div className="col-md-4">
-                        <img className="img-fluid" src={produto.produto ? produto.produto.imagemlink : ''} alt="Imagem do produto" />
+                    <div className="col-md-12">
+                        <img className="img-fluid" src={produto.produto ? produto.produto.linkImagem : ''} alt="Imagem do produto" />
                     </div>
-                    <div className="col-md-8">
+                    <div className="col-md-12">
                         <h2>{produto.produto ? produto.produto.nome : ''}</h2>
                         <p>{produto.produto ? produto.produto.descricao : ''}</p>
                         <h4>Tamanhos:</h4>

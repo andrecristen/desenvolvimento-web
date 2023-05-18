@@ -9,6 +9,9 @@ import com.trabalho.request.PedidoRequest;
 import com.trabalho.response.MessageResponse;
 import com.trabalho.response.ParamResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +29,12 @@ public class PedidoController {
     PedidoProdutoRepository pedidoProdutoRepository;
     @Autowired
     ProdutoDerivacaoRepository produtoDerivacaoRepository;
+
+    private final PlatformTransactionManager transactionManager;
+
+    public PedidoController(PlatformTransactionManager transactionManager) {
+        this.transactionManager = transactionManager;
+    }
 
     @GetMapping("/pedidos/{token}")
     public MessageResponse findById(@PathVariable String token) {
@@ -48,12 +57,13 @@ public class PedidoController {
 
     @PostMapping("/pedido/add")
     public MessageResponse add(@RequestBody PedidoRequest pedidoRequest) {
+        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             Pedido pedido = new Pedido();
             pedido.setCliente(usuarioRepository.getByToken(pedidoRequest.getCliente().getToken()));
             pedido.setCartao(pedidoRequest.getCartao());
             pedido.setEndereco(pedidoRequest.getEndereco());
-            pedido.setSituacao(Pedido.TIPO_PAGO);
+            pedido.setSituacao(Pedido.TIPO_NAO_PAGO);
             pedidoRepository.save(pedido);
             for (PedidoProduto pedidoProduto : pedidoRequest.getProdutos()) {
                 pedidoProduto.setPedido(pedido);
@@ -62,11 +72,16 @@ public class PedidoController {
                 if (produtoDerivacao.isPresent()) {
                     ProdutoDerivacao produtoDerivacaoInstance = produtoDerivacao.get();
                     produtoDerivacaoInstance.setEstoque(produtoDerivacaoInstance.getEstoque() - pedidoProduto.getQuantidade());
+                    if (produtoDerivacaoInstance.getEstoque() < 0) {
+                        throw new Exception("Não há estoque suficiente para o produto ["+produtoDerivacaoInstance.getProduto().getNome()+"] tamanho: ["+produtoDerivacaoInstance.getTamanho()+"]");
+                    }
                     produtoDerivacaoRepository.save(produtoDerivacao.get());
                 }
             }
+            transactionManager.commit(status);
             return new MessageResponse(true, "Pedido gravado com sucesso");
         } catch (Exception exception) {
+            transactionManager.rollback(status);
             return new MessageResponse(false, exception.getMessage());
         }
     }

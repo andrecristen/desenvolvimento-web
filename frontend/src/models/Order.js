@@ -9,9 +9,10 @@ export default class Order {
 
     get STATUS_LIST() {
         return {
-            1: "Pago",
-            2: "Em entrega",
-            3: "Entregue"
+            1: "Aguardando Confirmação de Pagamento",
+            2: "Pagamento Confirmado",
+            3: "Em entrega",
+            4: "Entregue"
         };
     }
 

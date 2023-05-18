@@ -8,7 +8,10 @@ const CarrinhoPage = function (props) {
 
     const navigate = useNavigate();
 
-    const { authenticated, cart, setCartData, updateItemOnCart, removeItemOnCart } = useContext(PublicContext);
+    const { loadUser, cart, updateItemOnCart, removeItemOnCart } = useContext(PublicContext);
+
+
+    const authenticated = loadUser();
 
     const getTotal = () => {
         let total = 0;

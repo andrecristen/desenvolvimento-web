@@ -15,7 +15,9 @@ const LoginPage = function () {
     let navigate = useNavigate();
 
     const { loginCliente } = useContext(EcommerceContext);
-    const { authenticated } = useContext(PublicContext);
+    const { loadUser } = useContext(PublicContext);
+
+    const authenticated = loadUser();
 
     const [validatingLogin, setValidatingLogin] = useState(false);
     const [email, setEmail] = useState('');
