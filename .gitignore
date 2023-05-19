@@ -20,3 +20,6 @@
 /frontendnpm-debug.log*
 /frontendyarn-debug.log*
 /frontendyarn-error.log*
+/frontendyarn-error.log*
+/frontend/.idea
+/backend/.idea
