@@ -6,6 +6,7 @@ import com.trabalho.repository.PedidoRepository;
 import com.trabalho.repository.ProdutoDerivacaoRepository;
 import com.trabalho.repository.UsuarioRepository;
 import com.trabalho.request.PedidoRequest;
+import com.trabalho.response.DashboardResponse;
 import com.trabalho.response.MessageResponse;
 import com.trabalho.response.ParamResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,11 @@ public class PedidoController {
 
     public PedidoController(PlatformTransactionManager transactionManager) {
         this.transactionManager = transactionManager;
+    }
+
+    @GetMapping("/pedidos/dashboard")
+    public List<DashboardResponse> dashboard() {
+        return pedidoProdutoRepository.getDashboard();
     }
 
     @GetMapping("/pedidos/{token}")

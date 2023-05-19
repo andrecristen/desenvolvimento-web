@@ -19,3 +19,11 @@ export const editProdutoRequest = async (data) => {
             return error.response;
         });
 }
+
+export const getDashboardRequest = async () => {
+    return api.get('/pedidos/dashboard').then((result) => {
+        return result;
+    }).catch((error) => {
+        return error.response;
+    });
+}

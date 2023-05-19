@@ -3,7 +3,7 @@ import React, { useState, useEffect, createContext, useContext } from "react";
 import { useNavigate } from "react-router-dom"
 
 import { auth, getProdutosRequest, getProdutoDerivacoesRequest } from "../services/api-public"
-import { addProdutoRequest, editProdutoRequest } from "../services/api-admin"
+import { addProdutoRequest, editProdutoRequest, getDashboardRequest } from "../services/api-admin"
 import { PublicContext } from "./public";
 import User from "../models/User";
 import { errorMessage, successMessage } from "../components/UI/notify";
@@ -70,6 +70,15 @@ export const AdminProvider = ({ children }) => {
         }
     }
 
+    const getDashboard = async () => {
+        const response = await getDashboardRequest();
+        if (response && response.status && response.status == 200 && response.data) {
+            return response.data;
+        } else {
+            errorMessage('Não foi possível alterar o produto');
+        }
+    }
+
     return (
         <AdminContext.Provider
             value={{
@@ -78,7 +87,8 @@ export const AdminProvider = ({ children }) => {
                 getProdutos,
                 getProdutoDerivacoes,
                 addProduto,
-                editProduto
+                editProduto,
+                getDashboard
             }}>
             {children}
         </AdminContext.Provider>
