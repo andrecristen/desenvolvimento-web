@@ -1,17 +1,37 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Render from "../../../components/Admin/Render";
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { AdminContext } from "../../../contexts/admin";
+import Order from "../../../models/Order";
+import User from "../../../models/User";
+
 
 const AdminUsuarioAdmistradorList = function () {
 
     const navigate = useNavigate();
 
+    const { getUsuariosTipo } = useContext(AdminContext);
+    const [usuarios, setUsuarios] = useState([]);
+
+    useEffect(() => {
+        load();
+    }, []);
+
+    const load = () => {
+        const userInstance = new User();
+        setUsuarios([]);
+        getUsuariosTipo(userInstance.TIPO_ADMINISTRADOR).then((data) => {
+            setUsuarios(data);
+        }).catch((exc) => {
+            console.log(exc);
+        });
+    }
+
     return (
         <Render>
-            <h3>Adminsitradores</h3>
+            <h3>Administradores</h3>
             <div className="btn-group display-table">
-                <button type="button" className="btn btn-sm btn-success"><FontAwesomeIcon icon={faAdd}> </FontAwesomeIcon>Adicionar</button>
+                {/* Ações Sem linha */}
             </div>
             <table className="table">
                 <thead className="thead-dark">
@@ -19,28 +39,21 @@ const AdminUsuarioAdmistradorList = function () {
                         <th scope="col">#</th>
                         <th scope="col">Nome</th>
                         <th scope="col">CPF</th>
+                        <th scope="col">Login</th>
                         <th scope="col">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
+                    {usuarios && usuarios.map(usuario => {
+                        return (
+                            <tr>
+                                <th>{usuario.id}</th>
+                                <td>{usuario.nome}</td>
+                                <td>{usuario.cpf}</td>
+                                <td>{usuario.email} </td>
+                                <td> </td>
+                            </tr>);
+                    })}
                 </tbody>
             </table>
         </Render>

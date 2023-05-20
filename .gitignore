@@ -22,4 +22,6 @@
 /frontendyarn-error.log*
 /frontendyarn-error.log*
 /frontend/.idea
+/frontend/package-lock.json
 /backend/.idea
+/backend/target/

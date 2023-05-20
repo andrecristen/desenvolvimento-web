@@ -1,7 +1,10 @@
 package com.trabalho.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "endereco")
 public class Endereco {
@@ -10,7 +13,7 @@ public class Endereco {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Usuario cliente;
 
     @Column(columnDefinition = "text")

@@ -38,7 +38,7 @@ const AdminHomePage = function () {
                         return (
                             <tr>
                                 <th>{dashboard.produto.id}</th>
-                                <td>{dashboard.produto.nome}</td>
+                                    <td><a href={"/admin/produto/edit/" + dashboard.produto.id}>{dashboard.produto.nome}</a></td>
                                 <td>{dashboard.quantidade}</td>
                             </tr>);
                     })}

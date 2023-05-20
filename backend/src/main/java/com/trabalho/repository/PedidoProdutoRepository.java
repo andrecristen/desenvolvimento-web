@@ -1,5 +1,6 @@
 package com.trabalho.repository;
 
+import com.trabalho.model.Pedido;
 import com.trabalho.model.PedidoProduto;
 import com.trabalho.response.DashboardResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,5 +17,8 @@ public interface PedidoProdutoRepository extends JpaRepository<PedidoProduto, Lo
             "GROUP BY produto.id " +
             "ORDER BY sum(pedidoProduto.quantidade) DESC")
     List<DashboardResponse> getDashboard();
+
+
+    List<PedidoProduto> findByPedido(Pedido pedido);
 
 }

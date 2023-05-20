@@ -26,6 +26,9 @@ import AdminUsuarioClienteList from "../pages/Admin/AdminUsuarioList/clientes";
 import AdminUsuarioAdmistradorList from "../pages/Admin/AdminUsuarioList/administradores";
 import User from "../models/User";
 import AdminProdutoForm from "../pages/Admin/AdminProdutoForm";
+import AdminRegisterPage from "../pages/Admin/AdminRegister";
+import AdminPedidoCanceladoList from "../pages/Admin/AdminPedidoList/cancelados";
+import AdminPedidoForm from "../pages/Admin/AdminPedidoForm";
 
 const AppRoutes = () => {
 
@@ -54,6 +57,7 @@ const AppRoutes = () => {
                     <Routes>
                         {/* Acessos */}
                         <Route exact path="/admin/login" element={<AdminLoginPage />}></Route>
+                        <Route exact path="/admin/register" element={<AdminRegisterPage />}></Route>
                         <Route exact path="/admin/home" element={<PrivateContainer tipo={TIPO_ADMINISTRADOR}><AdminHomePage /></PrivateContainer>}></Route>
                         {/* Produtos */}
                         <Route exact path="/admin/produtos" element={<PrivateContainer tipo={TIPO_ADMINISTRADOR}><AdminProdutoList /></PrivateContainer>}></Route>
@@ -63,6 +67,8 @@ const AppRoutes = () => {
                         <Route exact path="/admin/pedidos/nao-pagos" element={<PrivateContainer tipo={TIPO_ADMINISTRADOR}><AdminPedidoNaoPagoList /></PrivateContainer>}></Route>
                         <Route exact path="/admin/pedidos/pagos" element={<PrivateContainer tipo={TIPO_ADMINISTRADOR}><AdminPedidoPagoList /></PrivateContainer>}></Route>
                         <Route exact path="/admin/pedidos/entregues" element={<PrivateContainer tipo={TIPO_ADMINISTRADOR}><AdminPedidoEntregueList /></PrivateContainer>}></Route>
+                        <Route exact path="/admin/pedidos/cancelados" element={<PrivateContainer tipo={TIPO_ADMINISTRADOR}><AdminPedidoCanceladoList /></PrivateContainer>}></Route>
+                        <Route exact path="/admin/pedidos/view/:id" element={<PrivateContainer tipo={TIPO_ADMINISTRADOR}><AdminPedidoForm /></PrivateContainer>}></Route>
                         {/* Usuários */}
                         <Route exact path="/admin/usuarios/clientes" element={<PrivateContainer tipo={TIPO_ADMINISTRADOR}><AdminUsuarioClienteList /></PrivateContainer>}></Route>
                         <Route exact path="/admin/usuarios/admins" element={<PrivateContainer tipo={TIPO_ADMINISTRADOR}><AdminUsuarioAdmistradorList /></PrivateContainer>}></Route>

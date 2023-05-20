@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 
-const AdminPedidoEntregueList = function () {
+const AdminPedidoCanceladoList = function () {
 
     const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ const AdminPedidoEntregueList = function () {
     const load = () => {
         const orderInstance = new Order();
         setPedidos([]);
-        getPedidosSituacao(orderInstance.STATUS_ENTREGUE).then((data) => {
+        getPedidosSituacao(orderInstance.STATUS_CANCELADO).then((data) => {
             setPedidos(data);
         }).catch((exc) => {
             console.log(exc);
@@ -30,7 +30,7 @@ const AdminPedidoEntregueList = function () {
 
     return (
         <Render>
-            <h3>Pedidos Entregues</h3>
+            <h3>Pedidos Cancelados</h3>
             <div className="btn-group display-table">
                 {/* Ações Sem linha */}
             </div>
@@ -65,4 +65,4 @@ const AdminPedidoEntregueList = function () {
     )
 }
 
-export default AdminPedidoEntregueList;
+export default AdminPedidoCanceladoList;

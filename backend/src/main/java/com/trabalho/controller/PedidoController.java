@@ -9,12 +9,14 @@ import com.trabalho.request.PedidoRequest;
 import com.trabalho.response.DashboardResponse;
 import com.trabalho.response.MessageResponse;
 import com.trabalho.response.ParamResponse;
+import com.trabalho.response.PedidoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,8 +44,44 @@ public class PedidoController {
         return pedidoProdutoRepository.getDashboard();
     }
 
+    @GetMapping("/pedidos/situacao/{situacao}")
+    public List<Pedido> pedidoSituacao(@PathVariable int situacao) {
+        return pedidoRepository.findBySituacao(situacao);
+    }
+
+    @PutMapping("/pedido/{id}/nova-situacao/{situacao}")
+    public MessageResponse alterarSituacao(@PathVariable Long id, @PathVariable int situacao) {
+        MessageResponse message;
+        try {
+            Optional<Pedido> pedido = pedidoRepository.findById(id);
+            if (pedido.isPresent()) {
+                pedido.get().setSituacao(situacao);
+                pedidoRepository.save(pedido.get());
+            } else {
+                throw new Exception("Não localizado pedido informado");
+            }
+            message = new MessageResponse(true, "Alterada situação do pedido #[" + id + "]");
+        } catch (Exception exception) {
+            message = new MessageResponse(false, exception.getMessage());
+        }
+        return message;
+    }
+
+    @GetMapping("/pedido/{id}")
+    public Optional<PedidoResponse> findPedido(@PathVariable Long id) {
+        PedidoResponse response = null;
+        Optional<Pedido> pedido = pedidoRepository.findById(id);
+        if (pedido.isPresent()) {
+            response = new PedidoResponse();
+            response.setPedido(pedido.get());
+            List<PedidoProduto> pedidoProdutos = pedidoProdutoRepository.findByPedido(pedido.get());
+            response.setPedidoProdutos(pedidoProdutos.toArray(PedidoProduto[]::new));
+        }
+        return Optional.ofNullable(response);
+    }
+
     @GetMapping("/pedidos/{token}")
-    public MessageResponse findById(@PathVariable String token) {
+    public MessageResponse meusPedidos(@PathVariable String token) {
         MessageResponse message;
         try {
             Usuario usuario = usuarioRepository.getByToken(token);
@@ -56,7 +94,7 @@ public class PedidoController {
             message = new MessageResponse(true, "Pedidos carregados com sucesso");
             message.addParam(new ParamResponse("pedidos", pedidos));
         } catch (Exception exception) {
-            message =  new MessageResponse(false, exception.getMessage());
+            message = new MessageResponse(false, exception.getMessage());
         }
         return message;
     }
@@ -69,17 +107,19 @@ public class PedidoController {
             pedido.setCliente(usuarioRepository.getByToken(pedidoRequest.getCliente().getToken()));
             pedido.setCartao(pedidoRequest.getCartao());
             pedido.setEndereco(pedidoRequest.getEndereco());
-            pedido.setSituacao(Pedido.TIPO_NAO_PAGO);
+            pedido.setSituacao(Pedido.SITUACAO_NAO_PAGO);
             pedidoRepository.save(pedido);
             for (PedidoProduto pedidoProduto : pedidoRequest.getProdutos()) {
                 pedidoProduto.setPedido(pedido);
+                BigDecimal precoTotal = new BigDecimal(pedidoProduto.getQuantidade()).multiply(pedidoProduto.getPreco());
+                pedidoProduto.setPreco(precoTotal);
                 pedidoProdutoRepository.save(pedidoProduto);
                 Optional<ProdutoDerivacao> produtoDerivacao = produtoDerivacaoRepository.findById(pedidoProduto.getProdutoDerivacao().getId());
                 if (produtoDerivacao.isPresent()) {
                     ProdutoDerivacao produtoDerivacaoInstance = produtoDerivacao.get();
                     produtoDerivacaoInstance.setEstoque(produtoDerivacaoInstance.getEstoque() - pedidoProduto.getQuantidade());
                     if (produtoDerivacaoInstance.getEstoque() < 0) {
-                        throw new Exception("Não há estoque suficiente para o produto ["+produtoDerivacaoInstance.getProduto().getNome()+"] tamanho: ["+produtoDerivacaoInstance.getTamanho()+"]");
+                        throw new Exception("Não há estoque suficiente para o produto [" + produtoDerivacaoInstance.getProduto().getNome() + "] tamanho: [" + produtoDerivacaoInstance.getTamanho() + "]");
                     }
                     produtoDerivacaoRepository.save(produtoDerivacao.get());
                 }

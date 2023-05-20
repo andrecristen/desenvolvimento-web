@@ -1,18 +1,19 @@
 package com.trabalho.model;
 
-import org.hibernate.annotations.Type;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "pedido")
 public class Pedido {
 
-    public static final int TIPO_NAO_PAGO = 1;
-    public static final int TIPO_PAGO = 2;
-    public static final int TIPO_EM_ENTREGA = 3;
-    public static final int TIPO_ENTREGUE = 4;
+    public static final int SITUACAO_NAO_PAGO = 1;
+    public static final int SITUACAO_PAGO = 2;
+    public static final int SITUACAO_EM_ENTREGA = 3;
+    public static final int SITUACAO_ENTREGUE = 4;
+    public static final int SITUACAO_CANCELADO = 5;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

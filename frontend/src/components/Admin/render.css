@@ -89,3 +89,11 @@ body {
 .border-bottom {
     border-bottom: 1px solid #e5e5e5;
 }
+
+.nav h4 {
+    text-align: start;
+}
+
+.nav li:hover {
+    background-color: #e5e5e5;
+}

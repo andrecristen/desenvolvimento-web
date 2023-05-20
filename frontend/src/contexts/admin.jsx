@@ -3,7 +3,7 @@ import React, { useState, useEffect, createContext, useContext } from "react";
 import { useNavigate } from "react-router-dom"
 
 import { auth, getProdutosRequest, getProdutoDerivacoesRequest } from "../services/api-public"
-import { addProdutoRequest, editProdutoRequest, getDashboardRequest } from "../services/api-admin"
+import { addProdutoRequest, editProdutoRequest, getDashboardRequest, registerUsuarioRequest, getPedidosSituacaoRequest, putNovaSituacaoPedidoRequest, getUsuariosTipoRequest, getPedidoRequest } from "../services/api-admin"
 import { PublicContext } from "./public";
 import User from "../models/User";
 import { errorMessage, successMessage } from "../components/UI/notify";
@@ -15,13 +15,13 @@ export const AdminProvider = ({ children }) => {
     const navigate = useNavigate();
 
     let { login, logout, loadUser } = useContext(PublicContext);
-    
+
     const loginAdmin = async (email, password) => {
         const success = await login(email, password);
         if (success) {
             const userInstance = new User();
             if (loadUser().tipo == userInstance.TIPO_ADMINISTRADOR) {
-                navigate("/admin/home");   
+                navigate("/admin/home");
             } else {
                 errorMessage('Tipo de usuário não possui privilégio para acessar essa área do sistema.');
                 logout();
@@ -30,6 +30,16 @@ export const AdminProvider = ({ children }) => {
             navigate("/admin/login");
         }
     };
+
+    const registerAdmin = async (user) => {
+        const response = await registerUsuarioRequest(user);
+        if (response && response.status && response.status == 200) {
+            successMessage('Administrador registrado com sucesso');
+            navigate("/admin/login");
+        } else {
+            errorMessage('Não foi possível se registrar');
+        }
+    }
 
     const getProdutos = async () => {
         const response = await getProdutosRequest();
@@ -79,19 +89,62 @@ export const AdminProvider = ({ children }) => {
         }
     }
 
+    const getPedidosSituacao = async (situacao) => {
+        const response = await getPedidosSituacaoRequest(situacao);
+        if (response && response.status && response.status == 200 && response.data) {
+            return response.data;
+        } else {
+            errorMessage('Não foi possível buscar os pedidos para a situação desejada');
+        }
+    }
+
+    const novaSituacaoPedido = async (idPedido, novaSituacaoPedido) => {
+        const response = await putNovaSituacaoPedidoRequest(idPedido, novaSituacaoPedido);
+        if (response && response.status && response.status == 200 && response.data && response.data.success) {
+            debugger;
+            successMessage(response.data.message);
+            navigate();
+        } else {
+            errorMessage(response.data.message);
+        }
+    }
+
+    const getUsuariosTipo = async (tipo) => {
+        const response = await getUsuariosTipoRequest(tipo);
+        if (response && response.status && response.status == 200 && response.data) {
+            return response.data;
+        } else {
+            errorMessage('Não foi possível buscar os usuários para o tipo desejado');
+        }
+    }
+
+    const getPedido = async (id) => {
+        const response = await getPedidoRequest(id);
+        if (response && response.status && response.status == 200 && response.data) {
+            return response.data;
+        } else {
+            errorMessage('Não foi possível buscar o pedido desejado');
+        }
+    }
+
     return (
         <AdminContext.Provider
             value={{
                 auth,
                 loginAdmin,
+                registerAdmin,
                 getProdutos,
                 getProdutoDerivacoes,
                 addProduto,
                 editProduto,
-                getDashboard
+                getDashboard,
+                getPedidosSituacao,
+                getPedido,
+                novaSituacaoPedido,
+                getUsuariosTipo
             }}>
             {children}
         </AdminContext.Provider>
     );
-    
+
 }

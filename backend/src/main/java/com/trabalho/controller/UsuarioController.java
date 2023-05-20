@@ -1,6 +1,7 @@
 package com.trabalho.controller;
 
 import com.trabalho.controller.abstracts.HashController;
+import com.trabalho.model.Pedido;
 import com.trabalho.model.Usuario;
 import com.trabalho.repository.UsuarioRepository;
 import com.trabalho.request.AuthRequest;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -45,6 +47,18 @@ public class UsuarioController {
         usuario.setToken(UUID.randomUUID().toString());
         usuario.setSenha(HashController.encode(usuario.getSenha()));
         return this.operate(usuario, "registrado");
+    }
+    @PostMapping("/usuario/admin/register")
+    public MessageResponse registerAdmin(@RequestBody Usuario usuario) throws NoSuchAlgorithmException {
+        usuario.setTipo(Usuario.TIPO_ADMINISTRADOR);
+        usuario.setToken(UUID.randomUUID().toString());
+        usuario.setSenha(HashController.encode(usuario.getSenha()));
+        return this.operate(usuario, "registrado");
+    }
+
+    @GetMapping("/usuarios/tipo/{tipo}")
+    public List<Usuario> pedidoSituacao(@PathVariable int tipo) {
+        return usuarioRepository.findByTipo(tipo);
     }
 
     @PutMapping("/usuario/edit")
