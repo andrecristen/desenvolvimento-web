@@ -16,7 +16,6 @@ const AdminPedidoForm = function (props) {
         if (id) {
             getPedido(id).then((data) => {
                 setPedido(data);
-                console.log(data);
             }).catch((exc) => {
                 console.log(exc);
             });
@@ -28,9 +27,6 @@ const AdminPedidoForm = function (props) {
 
     return (
         <Render>
-            <br />
-            <br />
-            <br />
             <div>
                 {pedido && pedido.pedido
                     ?

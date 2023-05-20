@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AdminContext } from "../../../contexts/admin";
 import Order from "../../../models/Order";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faPlaneDeparture, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
@@ -32,7 +32,7 @@ const AdminPedidoPagoList = function () {
         <Render>
             <h3>Pedidos Pagamento Confirmado</h3>
             <div className="btn-group display-table">
-                {/* Ações Sem linha */}
+                <button type="button" onClick={() => { navigate("/admin/pedidos/entrega/add") }} className="btn btn-sm btn-primary"><FontAwesomeIcon icon={faPlaneDeparture}></FontAwesomeIcon> Organizar entrega</button>
             </div>
             <table className="table">
                 <thead className="thead-dark">

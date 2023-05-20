@@ -55,6 +55,7 @@ const AdminPedidoEntregueList = function () {
                                 <td>
                                     <div className="btn-group">
                                         <button onClick={() => { navigate("/admin/pedidos/view/" + pedido.id) }} type="button" className="btn btn-sm btn-info"><FontAwesomeIcon icon={faSearch}> </FontAwesomeIcon> Visualizar</button>
+                                        <button onClick={() => { navigate("/admin/pedidos/view/entregas/" + pedido.id) }} type="button" className="btn btn-sm btn-warning"><FontAwesomeIcon icon={faSearch}> </FontAwesomeIcon> Visualizar Entregas</button>
                                     </div>
                                 </td>
                             </tr>);

@@ -3,7 +3,7 @@ import React, { useState, useEffect, createContext, useContext } from "react";
 import { useNavigate } from "react-router-dom"
 
 import { auth, getProdutosRequest, getProdutoDerivacoesRequest } from "../services/api-public"
-import { addProdutoRequest, editProdutoRequest, getDashboardRequest, registerUsuarioRequest, getPedidosSituacaoRequest, putNovaSituacaoPedidoRequest, getUsuariosTipoRequest, getPedidoRequest } from "../services/api-admin"
+import { addProdutoRequest, editProdutoRequest, getDashboardRequest, registerUsuarioRequest, getPedidosSituacaoRequest, putNovaSituacaoPedidoRequest, getUsuariosTipoRequest, getPedidoRequest, getEntregaPedidoProdutosDisponiveisRequest, postEntregaRequest, getEntregasPedidoRequest } from "../services/api-admin"
 import { PublicContext } from "./public";
 import User from "../models/User";
 import { errorMessage, successMessage } from "../components/UI/notify";
@@ -53,7 +53,6 @@ export const AdminProvider = ({ children }) => {
     const getProdutoDerivacoes = async (id) => {
         const response = await getProdutoDerivacoesRequest(id);
         if (response && response.status && response.status == 200) {
-            console.log(response.data);
             return response.data;
         } else {
             errorMessage('Não foi possível realizar a busca de derivações do produto ' + id);
@@ -101,9 +100,8 @@ export const AdminProvider = ({ children }) => {
     const novaSituacaoPedido = async (idPedido, novaSituacaoPedido) => {
         const response = await putNovaSituacaoPedidoRequest(idPedido, novaSituacaoPedido);
         if (response && response.status && response.status == 200 && response.data && response.data.success) {
-            debugger;
             successMessage(response.data.message);
-            navigate();
+            window.location.reload(false);
         } else {
             errorMessage(response.data.message);
         }
@@ -127,6 +125,36 @@ export const AdminProvider = ({ children }) => {
         }
     }
 
+
+    const getEntregaPedidoProdutosDisponiveis = async (id) => {
+        const response = await getEntregaPedidoProdutosDisponiveisRequest(id);
+        if (response && response.status && response.status == 200 && response.data) {
+            return response.data;
+        } else {
+            errorMessage('Não foi possível buscar os produtos disponíveis');
+        }
+    }
+
+    const entrega = async (data) => {
+        const response = await postEntregaRequest(data);
+        if (response && response.status && response.status == 200 && response.data && response.data.success) {
+            successMessage(response.data.message);
+            navigate("/admin/pedidos/pagos");
+        } else {
+            errorMessage(response.data.message);
+        }
+    }
+
+    
+    const getEntregasPedido = async (id) => {
+        const response = await getEntregasPedidoRequest(id);
+        if (response && response.status && response.status == 200 && response.data) {
+            return response.data;
+        } else {
+            errorMessage('Não foi possível buscar as entregas do pedido desejado');
+        }
+    }
+
     return (
         <AdminContext.Provider
             value={{
@@ -141,7 +169,10 @@ export const AdminProvider = ({ children }) => {
                 getPedidosSituacao,
                 getPedido,
                 novaSituacaoPedido,
-                getUsuariosTipo
+                getUsuariosTipo,
+                getEntregaPedidoProdutosDisponiveis,
+                entrega,
+                getEntregasPedido
             }}>
             {children}
         </AdminContext.Provider>

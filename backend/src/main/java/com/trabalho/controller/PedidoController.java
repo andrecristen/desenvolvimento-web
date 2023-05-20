@@ -110,6 +110,9 @@ public class PedidoController {
             pedido.setSituacao(Pedido.SITUACAO_NAO_PAGO);
             pedidoRepository.save(pedido);
             for (PedidoProduto pedidoProduto : pedidoRequest.getProdutos()) {
+                if (pedidoProduto.getQuantidade() > Entrega.QUANTIDADE_MAXIMA_PRODUTOS) {
+                    throw new Exception("A quantidade máxima para um produto é de ["+Entrega.QUANTIDADE_MAXIMA_PRODUTOS+"] unidades, pois nosso drone não suporta mais que isso.");
+                }
                 pedidoProduto.setPedido(pedido);
                 BigDecimal precoTotal = new BigDecimal(pedidoProduto.getQuantidade()).multiply(pedidoProduto.getPreco());
                 pedidoProduto.setPreco(precoTotal);

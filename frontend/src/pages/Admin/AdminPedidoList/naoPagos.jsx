@@ -22,7 +22,6 @@ const AdminPedidoNaoPagoList = function () {
         setPedidos([]);
         getPedidosSituacao(orderInstance.STATUS_AGUARDANDO_CONFIRMACAO_PAGAMENTO).then((data) => {
             setPedidos(data);
-            console.log(data);
         }).catch((exc) => {
             console.log(exc);
         });

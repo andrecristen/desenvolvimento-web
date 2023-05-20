@@ -69,3 +69,27 @@ export const getPedidoRequest = async (id) => {
         return error.response;
     });
 }
+
+export const getEntregaPedidoProdutosDisponiveisRequest = async (id) => {
+    return api.get('/entrega/produtos-disponiveis/pedido/' + id).then((result) => {
+        return result;
+    }).catch((error) => {
+        return error.response;
+    });
+}
+
+export const getEntregasPedidoRequest = async (id) => {
+    return api.get('/entregas/pedido/' + id).then((result) => {
+        return result;
+    }).catch((error) => {
+        return error.response;
+    });
+}
+
+export const postEntregaRequest = async (data) => {
+    return api.post('/entrega/add', data).then((result) => {
+        return result;
+    }).catch((error) => {
+        return error.response;
+    });
+}

@@ -35,8 +35,8 @@ const Render = (props) => {
                         <div className="sidebar-sticky">
                             <ul className="nav flex-column">
                                 <h4>Geral</h4>
-                                <br/>
-                                <br/>
+                                <br />
+                                <br />
                                 <li className="nav-item">
                                     <a className="nav-link" onClick={() => { navigate('/admin/home') }} href="">
                                         <FontAwesomeIcon icon={faDashboard}></FontAwesomeIcon> Dashboard
@@ -47,11 +47,11 @@ const Render = (props) => {
                                         <FontAwesomeIcon icon={faBagShopping}></FontAwesomeIcon> Produtos
                                     </a>
                                 </li>
-                                <br/>
-                                <br/>
+                                <br />
+                                <br />
                                 <h4>Pedidos</h4>
-                                <br/>
-                                <br/>
+                                <br />
+                                <br />
                                 <li className="nav-item">
                                     <a className="nav-link" onClick={() => { navigate('/admin/pedidos/nao-pagos') }} href="">
                                         <FontAwesomeIcon icon={faCreditCard}></FontAwesomeIcon> Aguardando Pagamento
@@ -72,11 +72,11 @@ const Render = (props) => {
                                         <FontAwesomeIcon icon={faCancel}></FontAwesomeIcon> Cancelados
                                     </a>
                                 </li>
-                                <br/>
-                                <br/>
+                                <br />
+                                <br />
                                 <h4>Usuários</h4>
-                                <br/>
-                                <br/>
+                                <br />
+                                <br />
                                 <li className="nav-item">
                                     <a className="nav-link" onClick={() => { navigate('/admin/usuarios/clientes') }} href="">
                                         <FontAwesomeIcon icon={faUserFriends}></FontAwesomeIcon> Clientes
@@ -94,6 +94,9 @@ const Render = (props) => {
                         <div className="col-sm-12">
                             <button onClick={() => { navigate(-1) }} style={{ "float": "right" }} className="btn btn-sm btn-link float-left"><FontAwesomeIcon icon={faBackward} /> Voltar</button>
                         </div>
+                        <br />
+                        <br />
+                        <br />
                         {props.children}
                     </main>
                 </div>
